@@ -1,44 +1,44 @@
 package br.com.mercadosilva.modulos;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.LinkedList;
 
-public class Produtos {
+public class Produtos implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static LinkedList<Object> lista = new LinkedList<Object>();
+	
 	String title;
 	String description;
 	double price;
 	int amount;
-	int code; 
+	String code; 
 
-	public static void main (String[] args) {
-		
-		System.out.println(genCode("Produto 1"));
-		System.out.println(genCode("Produto 2"));
-		System.out.println(genCode("Produto 3"));
-		System.out.println(genCode("Produto 4"));
-		System.out.println(genCode("Produto 5"));
-		
-	}
-	
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public String getTitulo() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitulo(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -66,7 +66,7 @@ public class Produtos {
 		this.amount = amount;
 	}
 	
-	public static String genCode (String name) {
+	public String genCode (String name) {
 		
 		String md5 = null;
 		if (name == null) 
@@ -89,20 +89,36 @@ public class Produtos {
 		ObjectOutputStream out = new ObjectOutputStream(file);
 		
 		try {	
-			
 			this.title = title; 
 			this.description = description;
 			this.price = price;
-			this.code = genCode();
-			
+			this.code = genCode(this.getTitle()+this.description);
+							
 			out.writeObject(this);
 			
 			out.flush();
 			out.close();
 			file.flush();
 			file.close();
+			
 		} catch (FileNotFoundException error) {
 			System.out.println("[System log]:\n "+error);
+		}
+	}
+	
+	public void get () throws IOException, ClassNotFoundException {
+		FileInputStream file = new FileInputStream("data/products.dat");
+		ObjectInputStream in = new ObjectInputStream(file);
+		Object o = in.readObject();
+		
+		in.close();
+		file.close();
+		
+		if (o instanceof Produtos) {
+			Produtos produtos = (Produtos) o;
+			
+			System.out.printf("%s\n%s\n%f\n%d\n%s", produtos.getTitle(), produtos.getDescription(), 
+					produtos.getPrice(), produtos.getAmount(), produtos.getCode());
 		}
 	}
 }

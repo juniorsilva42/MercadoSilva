@@ -9,5 +9,4 @@ package br.com.mercadosilva.modulos;
  */
 public interface PersistenciaInterface {
 
-	public void save(String nomeArquivo, String conteudo, );
 }
