@@ -26,7 +26,10 @@ public interface PersistenciaInterface {
 	 * Método para obter os objetos objeto em um dado arquivo
 	 * @author Ivanicio Jr
 	 * @param String fileName
+	 * @return 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
 	 * 
 	 */
-	public void get (String fileName);
+	public Object get (String fileName) throws IOException, ClassNotFoundException;
 }

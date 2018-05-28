@@ -1,12 +1,6 @@
 package br.com.mercadosilva.modulos;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +14,7 @@ public class Produtos extends Persistencia {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static LinkedList<Object> lista = new LinkedList<Object>();
+	private static Persistencia persistencia = new Persistencia();
 	
 	String title;
 	String description;
@@ -83,31 +78,7 @@ public class Produtos extends Persistencia {
 		
 		return md5;
 	}
-	
-	/*
-	public void save (String title, String description, double price) throws IOException {
 		
-		FileOutputStream file = new FileOutputStream("data/products.dat");
-		ObjectOutputStream out = new ObjectOutputStream(file);
-		
-		try {	
-			this.title = title; 
-			this.description = description;
-			this.price = price;
-			this.code = genCode(this.getTitle()+this.description);
-							
-			out.writeObject(this);
-			
-			out.flush();
-			out.close();
-			file.flush();
-			file.close();
-			
-		} catch (FileNotFoundException error) {
-			System.out.println("[System log]:\n "+error);
-		}
-	}*/
-	
 	public void saveProduct (String title, String description, double price) throws IOException {
 		
 		this.title = title; 
@@ -115,17 +86,12 @@ public class Produtos extends Persistencia {
 		this.price = price;
 		this.code = genCode(this.getTitle()+this.description);
 		
-		Persistencia persistencia = new Persistencia();
 		persistencia.save("products", this);
 	}
 	
-	public void get () throws IOException, ClassNotFoundException {
-		FileInputStream file = new FileInputStream("data/products.dat");
-		ObjectInputStream in = new ObjectInputStream(file);
-		Object o = in.readObject();
+	public void getProducts () throws ClassNotFoundException, IOException {
 		
-		in.close();
-		file.close();
+		Object o = persistencia.get("products");
 		
 		if (o instanceof Produtos) {
 			Produtos produtos = (Produtos) o;
@@ -133,5 +99,6 @@ public class Produtos extends Persistencia {
 			System.out.printf("%s\n%s\n%f\n%d\n%s", produtos.getTitle(), produtos.getDescription(), 
 					produtos.getPrice(), produtos.getAmount(), produtos.getCode());
 		}
+		
 	}
 }
