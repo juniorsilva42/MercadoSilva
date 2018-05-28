@@ -11,8 +11,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
+import br.com.mercadosilva.modulos.Persistencia;
 
-public class Produtos implements Serializable {
+public class Produtos extends Persistencia {
 
 	/**
 	 * 
@@ -83,6 +84,7 @@ public class Produtos implements Serializable {
 		return md5;
 	}
 	
+	/*
 	public void save (String title, String description, double price) throws IOException {
 		
 		FileOutputStream file = new FileOutputStream("data/products.dat");
@@ -104,6 +106,17 @@ public class Produtos implements Serializable {
 		} catch (FileNotFoundException error) {
 			System.out.println("[System log]:\n "+error);
 		}
+	}*/
+	
+	public void saveProduct (String title, String description, double price) throws IOException {
+		
+		this.title = title; 
+		this.description = description;
+		this.price = price;
+		this.code = genCode(this.getTitle()+this.description);
+		
+		Persistencia persistencia = new Persistencia();
+		persistencia.save("products", this);
 	}
 	
 	public void get () throws IOException, ClassNotFoundException {
