@@ -10,7 +10,7 @@ public class TestaRecursos {
 		Produtos produtos = new Produtos();
 
 		produtos.saveProduct("Titulo do produto", "Descrição do produto", 179.90);
-		produtos.saveProduct("Titulo do produto 2", "Descrição do produto 2", 85.80);
+		produtos.saveProduct("Titulo do produto 2", "Descrição do produto", 179.90);
 		
 		produtos.getProducts();
 	} 

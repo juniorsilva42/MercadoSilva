@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 import java.util.LinkedList;
-import br.com.mercadosilva.modulos.Persistencia;
 
 public class Produtos extends Persistencia {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static LinkedList<Object> lista = new LinkedList<Object>();
 	private static Persistencia persistencia = new Persistencia();
@@ -21,7 +18,7 @@ public class Produtos extends Persistencia {
 	double price;
 	int amount;
 	String code; 
-
+	
 	public String getCode() {
 		return code;
 	}
@@ -78,27 +75,35 @@ public class Produtos extends Persistencia {
 		
 		return md5;
 	}
-		
+	
 	public void saveProduct (String title, String description, double price) throws IOException {
 		
 		this.title = title; 
 		this.description = description;
 		this.price = price;
-		this.code = genCode(this.getTitle()+this.description);
-		
-		persistencia.save("products", this);
+		this.code = genCode(this.getTitle());
+
+		lista.add(this);
+		persistencia.save("products", lista);
 	}
 	
 	public void getProducts () throws ClassNotFoundException, IOException {
 		
-		Object o = persistencia.get("products");
+		Object o;
 		
-		if (o instanceof Produtos) {
-			Produtos produtos = (Produtos) o;
-			
-			System.out.printf("%s\n%s\n%f\n%d\n%s", produtos.getTitle(), produtos.getDescription(), 
-					produtos.getPrice(), produtos.getAmount(), produtos.getCode());
+		try {
+			o = persistencia.get("products");
+				
+			if (o instanceof Produtos) {
+				LinkedList<Produtos> p = (LinkedList<Produtos>) o;
+
+				System.out.println(p.get(0));
+			}		
+				
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
 	}
 }
