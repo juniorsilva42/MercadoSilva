@@ -1,7 +1,6 @@
 package br.com.mercadosilva.modulos;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 public class TestaRecursos {
 
@@ -9,9 +8,9 @@ public class TestaRecursos {
 		
 		Produtos produtos = new Produtos();
 
-		produtos.saveProduct("Titulo do produto", "Descrição do produto", 179.90);
-		produtos.saveProduct("Titulo do produto 2", "Descrição do produto", 179.90);
-		produtos.saveProduct("Titulo do produto 3", "Descrição do produto 3", 85.90);
+		produtos.saveProduct("Coca-Cola 2 Litros", "Bebidas", 10, 5.98);
+		produtos.saveProduct("Cerveja em lata Brahma", "Bebidas", 50, 2.45);
+		produtos.saveProduct("Salgadinho Cheetos", "Guloseimas", 250, 3.80);
 
 		produtos.getProducts();
 	} 

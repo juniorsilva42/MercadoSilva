@@ -1,23 +1,25 @@
 package br.com.mercadosilva.modulos;
 
+import br.com.mercadosilva.modulos.br.com.mercadosilva.persistencia.Persistencia;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Produtos extends Persistencia {
+public class Produtos extends Persistencia
+{
 
 	private static final long serialVersionUID = 1L;
 	private static LinkedList<Object> lista = new LinkedList<Object>();
 	private static Persistencia persistencia = new Persistencia();
 	
-	String title;
-	String description;
-	double price;
-	int amount;
-	String code; 
+	private String title;
+    private String categoria;
+	private double price;
+	private int amount;
+	private String code;
 	
 	public String getCode() {
 		return code;
@@ -35,13 +37,13 @@ public class Produtos extends Persistencia {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
-	}
+    public String getCategoria() {
+        return categoria;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
 	public double getPrice() {
 		return price;
@@ -76,35 +78,39 @@ public class Produtos extends Persistencia {
 		return md5;
 	}
 	
-	public void saveProduct (String title, String description, double price) throws IOException {
+	public void saveProduct (String title, String categoria, int amount, double price) throws IOException {
 
 		Produtos produtos = new Produtos();
 
 		produtos.setTitle(title);
-		produtos.setDescription(description);
-		produtos.setPrice(price);
+		produtos.setCategoria(categoria);
+        produtos.setAmount(amount);
+        produtos.setPrice(price);
 		produtos.setCode(this.genCode(title));
 
 		lista.add(produtos);
-		persistencia.save("products", lista);
+		// Persiste o objeto no arquivo
+		produtos.save("products", lista);
 	}
 	
 	public void getProducts () throws IOException, ClassNotFoundException {
 		
 		Object o;
-		StringBuilder s = new StringBuilder();
 
 		try {
 			o = persistencia.get("products");
 
 			LinkedList<Produtos> produto = (LinkedList<Produtos>) o;
+			int i = 0;
 			int tamanhoLista = produto.size();
 
-			for (int i = 0; i < tamanhoLista; i++) {
+			while (i < tamanhoLista) {
 				System.out.println("Titulo: "+produto.get(i).getTitle());
-				System.out.println("Descrição: "+produto.get(i).getDescription());
-				System.out.println("Preço: "+produto.get(i).getPrice());
+				System.out.println("Categoria: "+produto.get(i).getCategoria());
+				System.out.println("Preço: R$ "+produto.get(i).getPrice());
+                System.out.println("Quantidade em estoque: "+produto.get(i).getAmount());
 				System.out.println("Código: "+produto.get(i).getCode()+"\n");
+				i++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
