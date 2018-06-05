@@ -11,7 +11,8 @@ public class TestaRecursos {
 
 		produtos.saveProduct("Titulo do produto", "Descrição do produto", 179.90);
 		produtos.saveProduct("Titulo do produto 2", "Descrição do produto", 179.90);
-		
+		produtos.saveProduct("Titulo do produto 3", "Descrição do produto 3", 85.90);
+
 		produtos.getProducts();
 	} 
 }

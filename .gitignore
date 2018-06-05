@@ -3,3 +3,6 @@
 .project
 /build
 .settings/
+.idea
+*.iml
+/out

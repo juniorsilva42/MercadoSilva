@@ -77,31 +77,35 @@ public class Produtos extends Persistencia {
 	}
 	
 	public void saveProduct (String title, String description, double price) throws IOException {
-		
-		this.title = title; 
-		this.description = description;
-		this.price = price;
-		this.code = genCode(this.getTitle());
 
-		lista.add(this);
+		Produtos produtos = new Produtos();
+
+		produtos.setTitle(title);
+		produtos.setDescription(description);
+		produtos.setPrice(price);
+		produtos.setCode(this.genCode(title));
+
+		lista.add(produtos);
 		persistencia.save("products", lista);
 	}
 	
-	public void getProducts () throws ClassNotFoundException, IOException {
+	public void getProducts () throws IOException, ClassNotFoundException {
 		
 		Object o;
-		
+		StringBuilder s = new StringBuilder();
+
 		try {
 			o = persistencia.get("products");
-				
-			if (o instanceof Produtos) {
-				LinkedList<Produtos> p = (LinkedList<Produtos>) o;
 
-				System.out.println(p.get(0));
-			}		
-				
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LinkedList<Produtos> produto = (LinkedList<Produtos>) o;
+			int tamanhoLista = produto.size();
+
+			for (int i = 0; i < tamanhoLista; i++) {
+				System.out.println("Titulo: "+produto.get(i).getTitle());
+				System.out.println("Descrição: "+produto.get(i).getDescription());
+				System.out.println("Preço: "+produto.get(i).getPrice());
+				System.out.println("Código: "+produto.get(i).getCode()+"\n");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
