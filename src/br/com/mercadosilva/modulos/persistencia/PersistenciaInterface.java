@@ -1,4 +1,4 @@
-package br.com.mercadosilva.modulos.br.com.mercadosilva.persistencia;
+package br.com.mercadosilva.modulos.persistencia;
 
 import java.io.IOException;
 
