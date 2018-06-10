@@ -1,37 +1,38 @@
 package br.com.mercadosilva.modulos.persistencia;
 
+import br.com.mercadosilva.modulos.Produtos;
+
 import java.io.*;
 
 public class Persistencia implements PersistenciaInterface, Serializable {
 
 	private static final long serialVersionUID = -8750124577151351713L;
 
+	private String ext = ".dat";
+	private String dir = "data/";
+
 	public void save (String fileName, Object o) throws IOException {
-
 		OutputStream os = null;
+		ObjectOutputStream oos = null;
 
-		if (isExists(fileName)) {
-			try {
-				os = new FileOutputStream("data/"+fileName+".dat", true);
-				ObjectOutputStream oos = new ObjectOutputStream(os);
+		try {
 
-				// Escreve o objeto serializado no arquivo de dados especificado por argumento.
-				oos.writeObject(o);
+			os = new FileOutputStream(dir+fileName+ext);
+			oos = new ObjectOutputStream(os);
 
-				oos.flush();
-				oos.close();
+			// Escreve o objeto serializado no arquivo de dados especificado por argumento.
+			oos.writeObject(o);
 
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			oos.flush();
+			oos.close();
 
-			finally {
-				if (os != null) {
-					os.flush();
-					os.close();
-				}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (os != null) {
+				os.flush();
+				os.close();
 			}
 		}
 	}
@@ -40,21 +41,23 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 
 		InputStream is = null;
 		Object o = null;
-		ObjectInputStream ois;
+		ObjectInputStream ois = null;
 
-		if (isExists(fileName)) {
+		try {
+			is = new FileInputStream(dir+fileName+ext);
+			ois  = new ObjectInputStream(is);
+
+			o = ois.readObject();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("[System log]:\n "+e);
+		}
+		finally {
 			try {
-				is = new FileInputStream("data/"+fileName+".dat");
-				ois = new ObjectInputStream(is);
-
-				o = ois.readObject();
-
 				ois.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("[System log]:\n "+e);
-			} finally {
-				if (is != null)
-					is.close();
+				is.close();
+			} catch (IOException e) {
+				System.out.println("Ocorreu um erro fatal enquanto o canal de arquivos tentava fechar. => \n"+e);
 			}
 		}
 
@@ -62,7 +65,7 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 	}
 	
 	public boolean isExists (String fileName) throws IOException {
-		File file = new File("data/"+fileName+".dat");
+		File file = new File(dir+fileName+ext);
 		
 		if (file.exists())
 			return true; 

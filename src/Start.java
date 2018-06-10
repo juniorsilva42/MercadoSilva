@@ -1,8 +1,7 @@
 import java.io.IOException;
-import java.util.LinkedList;
 
 import br.com.mercadosilva.modulos.Produtos;
-import br.com.mercadosilva.modulos.io.InsertWithInterface;
+import br.com.mercadosilva.modulos.cycle.CycleOfLife;
 import br.com.mercadosilva.modulos.util.Helpers;
 
 /*
@@ -16,17 +15,7 @@ public class Start {
 
     public static void main (String[] args) throws IOException, ClassNotFoundException {
 
-        Produtos produtos = new Produtos();
-
-        produtos.setTitle("Titutlo aqui");
-        produtos.setCategoria("Categoria aqui");
-        produtos.setPrice(88.20);
-        produtos.setAmount(10);
-
-        produtos.saveProduct(produtos);
-
-        produtos.getProducts();
-        // new Start();
+        new Start();
     }
 
     public Start () throws IOException, ClassNotFoundException {
@@ -51,7 +40,8 @@ public class Start {
                     System.out.println("\nCADASTRAR UM PRODUTO");
                     System.out.println("------------------------------------------");
 
-                    InsertWithInterface.createStockOfProducts();
+                    // Invoca o primeiro estado do ciclo de vida do programa: adicionar um produto ao sistema
+                    CycleOfLife.createStock();
                     break;
                 case 2:
 
@@ -59,6 +49,8 @@ public class Start {
                     System.out.println("\nLANÇAR UMA VENDA");
                     System.out.println("------------------------------------------");
 
+                    // Invoca o segundo estado do ciclo de vida do programa: lançar uma venda
+                    // CycleOfLife.createStock();
                     /**
 
                      Exibe uma versão "lite" dos produtos
@@ -89,8 +81,7 @@ public class Start {
                     break;
 
                 case 4:
-                    System.out.println("\nSaindo...");
-                    System.exit(0);
+                    CycleOfLife.exitProgram();
                     break;
 
                 default:

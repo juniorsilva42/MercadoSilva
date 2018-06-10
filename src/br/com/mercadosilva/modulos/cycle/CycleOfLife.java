@@ -1,15 +1,15 @@
-package br.com.mercadosilva.modulos.io;
+package br.com.mercadosilva.modulos.cycle;
 
 import br.com.mercadosilva.modulos.Produtos;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.Stack;
 
-public class InsertWithInterface {
+public class CycleOfLife {
 
-    public static void createStockOfProducts () throws IOException {
+    public static void createStock () throws IOException {
         Scanner in = new Scanner(System.in);
+        Produtos produtos = new Produtos();
 
         String title, categoria;
         double price;
@@ -27,7 +27,7 @@ public class InsertWithInterface {
         System.out.println("Quantidade em estoque: ");
         amount = in.nextInt();
 
-        Produtos produtos = new Produtos();
+
 
         produtos.setTitle(title);
         produtos.setCategoria(categoria);
@@ -35,5 +35,10 @@ public class InsertWithInterface {
         produtos.setAmount(amount);
 
         produtos.saveProduct(produtos);
+    }
+
+    public static void exitProgram () {
+        System.out.println("Saindo...");
+        System.exit(0);
     }
 }

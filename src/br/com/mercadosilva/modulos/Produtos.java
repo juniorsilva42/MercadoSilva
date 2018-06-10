@@ -2,7 +2,6 @@ package br.com.mercadosilva.modulos;
 
 import br.com.mercadosilva.modulos.persistencia.Persistencia;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -10,8 +9,8 @@ public class Produtos extends Persistencia {
 
 	private static final long serialVersionUID = 1L;
 
-	Persistencia persistencia;
-	private static LinkedList<Object> lista;
+	private static LinkedList<Object> lista = new LinkedList<>();
+	private static Persistencia persistencia = new Persistencia();
 
 	private String title, categoria;
 	private double price;
@@ -20,11 +19,11 @@ public class Produtos extends Persistencia {
 	public void saveProduct (Produtos produtos) throws IOException {
 
 		try {
-			lista = new LinkedList<>();
-			lista.add(produtos);
-			produtos.save("products", lista);
 
-			System.out.println("Produto inserido com sucesso!");
+			lista.add(produtos);
+			persistencia.save("products", lista);
+
+			System.out.println("\nProduto inserido com sucesso!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,13 +39,9 @@ public class Produtos extends Persistencia {
 
 			produto = (LinkedList<Produtos>) o;
 
-			int i = 0, tamanhoLista = produto.size();
+			int i = 0;
+			int tamanhoLista = produto.size();
 
-
-			System.out.println(produto.get(0).getTitle());
-
-
-			/*
 			while (i < tamanhoLista) {
 				System.out.println("Produto: "+produto.get(i).getTitle());
 				System.out.println("Categoria: "+produto.get(i).getCategoria());
@@ -54,7 +49,7 @@ public class Produtos extends Persistencia {
 				System.out.println("Quantidade em estoque: "+produto.get(i).getAmount()+"\n");
 
 				i++;
-			}*/
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

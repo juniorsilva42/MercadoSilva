@@ -30,4 +30,8 @@ public class Helpers implements HelpersInterface {
         System.out.println("1. Cadastrar um produto\n2. Lançar uma venda\n3. Ver o estoque\n4. Sair do sistema");
         System.out.println("=====================================================================\n");
     }
+
+    public static void quickSort (Comparable[] v) {
+
+    }
 }
