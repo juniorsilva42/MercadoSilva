@@ -10,4 +10,6 @@ public interface HelpersInterface {
      *
      * */
     public static int bufferedOption() throws IOException { return -1; }
+
+    public static void welcome () {  };
 }

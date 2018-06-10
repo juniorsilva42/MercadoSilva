@@ -1,26 +1,40 @@
+import java.io.IOException;
+import java.util.LinkedList;
+
 import br.com.mercadosilva.modulos.Produtos;
 import br.com.mercadosilva.modulos.io.InsertWithInterface;
 import br.com.mercadosilva.modulos.util.Helpers;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.Stack;
-
-public class Main {
+/*
+ *
+ * Start é a classe principal que controla todo o processamento do Software.
+ * Recuperando dados de entrada e atualização, exibição de "interface" e fomento de dados nas outras classes.
+ *
+ * @author Ivanicio Jr
+*/
+public class Start {
 
     public static void main (String[] args) throws IOException, ClassNotFoundException {
 
-        System.out.println("=====================================================================");
-        System.out.println("SUPERMERCADO SILVA");
-        System.out.println("=====================================================================");
-        System.out.println("O que deseja fazer?\n");
-        System.out.println("1. Cadastrar um produto\n2. Lançar uma venda\n3. Ver o estoque\n4. Sair do sistema");
-        System.out.println("=====================================================================\n");
+        Produtos produtos = new Produtos();
 
-        int opcao = 0;
+        produtos.setTitle("Titutlo aqui");
+        produtos.setCategoria("Categoria aqui");
+        produtos.setPrice(88.20);
+        produtos.setAmount(10);
+
+        produtos.saveProduct(produtos);
+
+        produtos.getProducts();
+        // new Start();
+    }
+
+    public Start () throws IOException, ClassNotFoundException {
+
+        // Aciona o procedimento padrão para exibição das opções com relação à usabilidade do programa
+        Helpers.welcome();
+
+        int opcao;
         /*
          *
          * Executa este laço enquanto a ooção for diferente de 4: sair do sistema.
@@ -47,22 +61,22 @@ public class Main {
 
                     /**
 
-                    Exibe uma versão "lite" dos produtos
-                    uma lista númerica abrindo a possibilidade de selecioná-los por um n° correspondente
-                    Produtos.getProducts(1);
+                     Exibe uma versão "lite" dos produtos
+                     uma lista númerica abrindo a possibilidade de selecioná-los por um n° correspondente
+                     Produtos.getProducts(1);
 
-                    Scanner in = new Scanner(System.in);
-                    int opt = 0, quantidade;
+                     Scanner in = new Scanner(System.in);
+                     int opt = 0, quantidade;
 
-                    System.out.println("Selecione o produto: (digite a opção numérica correspondente)");
-                    opt = in.nextInt();
-                    opt -= 1;
+                     System.out.println("Selecione o produto: (digite a opção numérica correspondente)");
+                     opt = in.nextInt();
+                     opt -= 1;
 
-                   // LinkedList<Produtos> p = Produtos.getProducts(true);
+                     // LinkedList<Produtos> p = Produtos.getProducts(true);
 
-                   // System.out.println("Quantidade de "+p.get(opt).getTitle());
-                    quantidade = in.nextInt();
-                    */
+                     // System.out.println("Quantidade de "+p.get(opt).getTitle());
+                     quantidade = in.nextInt();
+                     */
                     break;
 
                 case 3:
@@ -85,4 +99,5 @@ public class Main {
 
         } while (opcao != 4);
     }
+
 }

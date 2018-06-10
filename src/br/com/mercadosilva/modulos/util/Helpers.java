@@ -21,4 +21,13 @@ public class Helpers implements HelpersInterface {
 
         return opcao;
     }
+
+    public static void welcome () {
+        System.out.println("=====================================================================");
+        System.out.println("SUPERMERCADO SILVA");
+        System.out.println("=====================================================================");
+        System.out.println("O que deseja fazer?\n");
+        System.out.println("1. Cadastrar um produto\n2. Lançar uma venda\n3. Ver o estoque\n4. Sair do sistema");
+        System.out.println("=====================================================================\n");
+    }
 }
