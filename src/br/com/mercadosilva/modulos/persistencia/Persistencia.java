@@ -9,6 +9,17 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 	private String ext = ".dat";
 	private String dir = "data/";
 
+	/*
+	*
+	* Procedimento para salvar um dado objeto em um arquivo
+	*
+	* @arguments String filename, Object o
+	* FileName: Nome do arquivo a ser gravado
+	* o: Objeto a ser gravado
+	*
+	* @return void
+	*
+	* */
 	public void save (String fileName, Object o) throws IOException {
 		OutputStream os = null;
 		ObjectOutputStream oos = null;
@@ -34,7 +45,17 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 			}
 		}
 	}
-	
+
+	/*
+	 *
+	 * Método para obter objetos de um dado arquivo
+	 *
+	 * @arguments String filename
+	 * FileName: Nome do arquivo que será consumido
+	 *
+	 * @return Object
+	 *
+	 * */
 	public Object get (String fileName) throws IOException, ClassNotFoundException {
 
 		InputStream is = null;
@@ -61,7 +82,17 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 
 		return o;
 	}
-	
+
+	/*
+	 *
+	 * Método para verificar se um arquivo existe
+	 *
+	 * @arguments String filename
+	 * FileName: Nome do arquivo que será verificado
+	 *
+	 * @return Boolean
+	 *
+	 * */
 	public boolean isExists (String fileName) throws IOException {
 		File file = new File(dir+fileName+ext);
 		

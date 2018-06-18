@@ -5,11 +5,11 @@ import br.com.mercadosilva.modulos.persistencia.Persistencia;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Produtos extends Persistencia implements Comparable<Produtos> {
+public class Products extends Persistencia implements Comparable<Products> {
 
 	private static final long serialVersionUID = 1L;
 
-	private static LinkedList<Object> lista = new LinkedList<>();
+	private static LinkedList<Object> productsList = new LinkedList<>();
 
 	private String title;
 	private double price;
@@ -39,12 +39,12 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 		this.amount = amount;
 	}
 
-	public void saveProduct (Produtos produtos) throws IOException {
+	public void saveProduct (Products produtos) throws IOException {
 
 		try {
 
-			lista.add(produtos);
-			this.save("products", lista);
+			productsList.add(produtos);
+			this.save("db.products", productsList);
 
 			System.out.println("\nProduto inserido com sucesso!");
 		} catch (IOException e) {
@@ -55,12 +55,12 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 	public void screenProducts () throws IOException, ClassNotFoundException {
 		
 		Object o;
-		LinkedList<Produtos> produto;
+		LinkedList<Products> produto;
 
 		try {
-			o = this.get("products");
+			o = this.get("db.products");
 
-			produto = (LinkedList<Produtos>) o;
+			produto = (LinkedList<Products>) o;
 
 			int i = 0;
 			int tamanhoLista = produto.size();
@@ -77,14 +77,14 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 		}
 	}
 
-	public LinkedList<Produtos> getProducts () throws IOException, ClassNotFoundException {
+	public LinkedList<Products> getProducts () throws IOException, ClassNotFoundException {
 
 		Object o;
-		LinkedList<Produtos> produtos = null;
+		LinkedList<Products> produtos = null;
 
 		try {
-			o = this.get("products");
-			produtos = (LinkedList<Produtos>) o;
+			o = this.get("db.products");
+			produtos = (LinkedList<Products>) o;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +93,7 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 	}
 
 	/*
-	public int compareTo(Produtos produto) {
+	public int compareTo(Products produto) {
 
 		if (this.getPrice() > produto.getPrice()) {
 			return -1;
@@ -104,12 +104,12 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 		return this.getTitle().compareToIgnoreCase(produto.getTitle());
 	}
 
-	public int compareTo(Produtos p1, Produtos p2) {
+	public int compareTo(Products p1, Products p2) {
 		return p1.getTitle().toUpperCase().compareToIgnoreCase(p2.getTitle().toUpperCase());
 	}*/
 
 	@Override
-	public int compareTo(Produtos produto) {
+	public int compareTo(Products produto) {
 
 		return this.getTitle().toLowerCase().compareToIgnoreCase(produto.getTitle().toLowerCase());
 	}

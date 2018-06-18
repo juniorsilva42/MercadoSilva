@@ -1,6 +1,6 @@
 package br.com.mercadosilva.modulos.cycle;
 
-import br.com.mercadosilva.modulos.Produtos;
+import br.com.mercadosilva.modulos.Products;
 import br.com.mercadosilva.modulos.Vendas;
 import br.com.mercadosilva.modulos.util.Helpers;
 
@@ -11,7 +11,7 @@ public class CycleOfLife {
 
     public static void createStock () throws IOException {
 
-        Produtos produtos = new Produtos();
+        Products produtos = new Products();
         Scanner in = new Scanner(System.in);
 
         String title;
@@ -38,7 +38,7 @@ public class CycleOfLife {
 
     public static void launchSale () throws IOException, ClassNotFoundException {
 
-        Produtos produtos = new Produtos();
+        Products produtos = new Products();
         Vendas venda = new Vendas();
 
         produtos.screenProducts();

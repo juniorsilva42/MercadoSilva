@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
-    private LinkedList<Produtos> vendas = new LinkedList<>();
+    private LinkedList<Products> vendas = new LinkedList<>();
 
     private double totalPrice;
 
@@ -17,8 +17,8 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     public void sellProduct (int code, int amount) throws ClassNotFoundException, IOException {
 
-        Produtos produto = new Produtos();
-        LinkedList<Produtos> produtosLista = produto.getProducts();
+        Products produto = new Products();
+        LinkedList<Products> produtosLista = produto.getProducts();
 
         int i = 0;
         int tamanhoLista = produtosLista.size();
@@ -70,14 +70,14 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     public void screenSales () throws IOException, ClassNotFoundException {
 
-        LinkedList<Produtos> vendas;
+        LinkedList<Products> vendas;
         Object o;
 
         try {
 
             o = this.get("sales");
 
-            vendas = (LinkedList<Produtos>) o;
+            vendas = (LinkedList<Products>) o;
 
             int i = 0;
             int tamanhoLista = vendas.size();
