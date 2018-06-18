@@ -1,7 +1,5 @@
 package br.com.mercadosilva.modulos.persistencia;
 
-import br.com.mercadosilva.modulos.Produtos;
-
 import java.io.*;
 
 public class Persistencia implements PersistenciaInterface, Serializable {

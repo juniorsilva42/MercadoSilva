@@ -1,63 +1,102 @@
 package br.com.mercadosilva.modulos;
 
-import br.com.mercadosilva.modulos.Produtos;
+import br.com.mercadosilva.modulos.persistencia.Persistencia;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Vendas extends Produtos {
+public class Vendas extends Persistencia implements Comparable<Vendas> {
 
-    private LinkedList<Produtos> produtosVendidos = new LinkedList<>();
+    private LinkedList<Produtos> vendas = new LinkedList<>();
 
-    public void sellProduct (LinkedList<Produtos> produtos) throws ClassNotFoundException {
+    private double totalPrice;
 
-        Object o;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
-        try {
-            o = this.get("products");
+    public void sellProduct (int code, int amount) throws ClassNotFoundException, IOException {
 
-            int i = 0, indiceAtual = 0;
-            int tamanhoLista = produtos.size();
+        Produtos produto = new Produtos();
+        LinkedList<Produtos> produtosLista = produto.getProducts();
 
-            boolean encontrado = false;
+        int i = 0;
+        int tamanhoLista = produtosLista.size();
+        int currentIndex = 0;
 
-            System.out.println("Estou vendendo...");
-            while (i < tamanhoLista) {
-                System.out.println(produtos.get(i).getTitle());
-                i++;
+        boolean found = false;
+
+        while (i < tamanhoLista) {
+            if (code == i) {
+                found = true;
+                currentIndex = i;
+                break;
             }
+            i++;
+        }
 
+        /*
+         *
+         * Se o produto na qual o código passado for encontrado,
+         * executa as operações necessárias sobre ele, adiciona na lista de produtosVendidos e
+         * persiste no arquivo de vendas.
+         *
+         **/
+        if (found) {
+            /*System.out.println("Título: " + produtosLista.get(currentIndex).getTitle());
+            System.out.println("Preço: R$ " + produtosLista.get(currentIndex).getPrice());
+            System.out.println("Quantidade em estoque: " + produtosLista.get(currentIndex).getAmount());
+            System.out.println("_______________________________________________________________________________\n");
+*/
             /*
              *
              * Calcula a quantidade e o preço total dos produtos vendidos
              *
-            int newAmount = produto.get(indiceAtual).getAmount() - amount;
-            double precoTotal = produto.get(indiceAtual).getPrice() * amount;
+             */
+            int newAmount = produtosLista.get(currentIndex).getAmount() - amount;
+            double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
 
-             * Se o produto na qual o código passado for encontrado,
-             * executa as operações necessárias sobre ele, adiciona na lista de produtosVendidos e
-             * persiste no arquivo de vendas.
-             *
-            if (encontrado) {
-                Produtos produtos = new Produtos();
+            produto.setTitle(produtosLista.get(currentIndex).getTitle());
+            produto.setPrice(precoTotal);
+            produto.setAmount(newAmount);
 
-                produtos.setTitle(produto.get(indiceAtual).getTitle());
-                produtos.setCategoria(produto.get(indiceAtual).getCategoria());
-                produtos.setAmount(newAmount);
-                produtos.setPrice(precoTotal);
-                produtos.setCode(produto.get(indiceAtual).getCode());
-                 *
-                 * Adiciona à lista e persiste o objeto no arquivo
-                 *
+            vendas.add(produto);
+            this.save("sales", vendas);
 
-                produtosVendidos.add(produtos);
-                produtos.save("sales", produtosVendidos);
-            } else {
-                System.out.println("Produto inexistente no estoque.");
-            }*/
+        } else {
+            System.out.println("Produto indisponível ou incorreto.\nTente novamente.");
+        }
+    }
+
+    public void screenSales () throws IOException, ClassNotFoundException {
+
+        LinkedList<Produtos> vendas;
+        Object o;
+
+        try {
+
+            o = this.get("sales");
+
+            vendas = (LinkedList<Produtos>) o;
+
+            int i = 0;
+            int tamanhoLista = vendas.size();
+
+            while (i < tamanhoLista) {
+                System.out.println("Produto: "+vendas.get(i).getTitle());
+                System.out.println("Preço: R$ "+vendas.get(i).getPrice());
+                System.out.println("Quantidade disponível em estoque: "+vendas.get(i).getAmount()+"\n");
+
+                i++;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public int compareTo(Vendas venda) {
+
+        return 0;
     }
 }

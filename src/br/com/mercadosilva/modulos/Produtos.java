@@ -5,55 +5,15 @@ import br.com.mercadosilva.modulos.persistencia.Persistencia;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Produtos extends Persistencia {
+public class Produtos extends Persistencia implements Comparable<Produtos> {
 
 	private static final long serialVersionUID = 1L;
 
 	private static LinkedList<Object> lista = new LinkedList<>();
-	private static Persistencia persistencia = new Persistencia();
 
 	private String title, categoria;
 	private double price;
 	private int amount;
-
-	public void saveProduct (Produtos produtos) throws IOException {
-
-		try {
-
-			lista.add(produtos);
-			persistencia.save("products", lista);
-
-			System.out.println("\nProduto inserido com sucesso!");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void getProducts () throws IOException, ClassNotFoundException {
-		
-		Object o;
-		LinkedList<Produtos> produto;
-
-		try {
-			o = persistencia.get("products");
-
-			produto = (LinkedList<Produtos>) o;
-
-			int i = 0;
-			int tamanhoLista = produto.size();
-
-			while (i < tamanhoLista) {
-				System.out.println("Produto: "+produto.get(i).getTitle());
-				System.out.println("Categoria: "+produto.get(i).getCategoria());
-				System.out.println("Preço: R$ "+produto.get(i).getPrice());
-				System.out.println("Quantidade em estoque: "+produto.get(i).getAmount()+"\n");
-
-				i++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public String getTitle() {
 		return title;
@@ -87,4 +47,69 @@ public class Produtos extends Persistencia {
 		this.amount = amount;
 	}
 
+	public void saveProduct (Produtos produtos) throws IOException {
+
+		try {
+
+			lista.add(produtos);
+			this.save("products", lista);
+
+			System.out.println("\nProduto inserido com sucesso!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void screenProducts () throws IOException, ClassNotFoundException {
+		
+		Object o;
+		LinkedList<Produtos> produto;
+
+		try {
+			o = this.get("products");
+
+			produto = (LinkedList<Produtos>) o;
+
+			int i = 0;
+			int tamanhoLista = produto.size();
+
+			while (i < tamanhoLista) {
+				System.out.println("Código: "+(i+1));
+				System.out.println("Produto: "+produto.get(i).getTitle());
+				System.out.println("Categoria: "+produto.get(i).getCategoria());
+				System.out.println("Preço: R$ "+produto.get(i).getPrice());
+				System.out.println("Quantidade em estoque: "+produto.get(i).getAmount()+"\n");
+				i++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public LinkedList<Produtos> getProducts () throws IOException, ClassNotFoundException {
+
+		Object o;
+		LinkedList<Produtos> produtos = null;
+
+		try {
+			o = this.get("products");
+			produtos = (LinkedList<Produtos>) o;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return produtos;
+	}
+
+	@Override
+	public int compareTo(Produtos produto) {
+
+		if (this.getPrice() > produto.getPrice()) {
+			return -1;
+		} else if (this.getPrice() < produto.getPrice()) {
+			return 1;
+		}
+
+		return this.getTitle().compareToIgnoreCase(produto.getTitle());
+	}
 }

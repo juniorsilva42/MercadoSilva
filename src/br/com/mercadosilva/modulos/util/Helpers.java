@@ -31,7 +31,4 @@ public class Helpers implements HelpersInterface {
         System.out.println("=====================================================================\n");
     }
 
-    public static void quickSort (Comparable[] v) {
-
-    }
 }

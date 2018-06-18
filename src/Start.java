@@ -45,30 +45,13 @@ public class Start {
                     break;
                 case 2:
 
-                    System.out.print("\n------------------------------------------");
+                    System.out.println("__________________________________________");
                     System.out.println("\nLANÇAR UMA VENDA");
-                    System.out.println("------------------------------------------");
+                    System.out.println("__________________________________________\n");
+
 
                     // Invoca o segundo estado do ciclo de vida do programa: lançar uma venda
-                    // CycleOfLife.createStock();
-                    /**
-
-                     Exibe uma versão "lite" dos produtos
-                     uma lista númerica abrindo a possibilidade de selecioná-los por um n° correspondente
-                     Produtos.getProducts(1);
-
-                     Scanner in = new Scanner(System.in);
-                     int opt = 0, quantidade;
-
-                     System.out.println("Selecione o produto: (digite a opção numérica correspondente)");
-                     opt = in.nextInt();
-                     opt -= 1;
-
-                     // LinkedList<Produtos> p = Produtos.getProducts(true);
-
-                     // System.out.println("Quantidade de "+p.get(opt).getTitle());
-                     quantidade = in.nextInt();
-                     */
+                    CycleOfLife.launchSale();
                     break;
 
                 case 3:
@@ -77,7 +60,8 @@ public class Start {
                     System.out.println("------------------------------------------");
 
                     Produtos produtos = new Produtos();
-                    produtos.getProducts();
+                    produtos.screenProducts();
+
                     break;
 
                 case 4:
