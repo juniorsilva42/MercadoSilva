@@ -7,12 +7,27 @@ import java.util.LinkedList;
 
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
-    private LinkedList<Products> vendas = new LinkedList<>();
+    private LinkedList<Products> listaVendas = new LinkedList<>();
 
-    private double totalPrice;
+    /*
+     *
+     * Obtem uma lista de produtos
+     * @return LinkedList<Products>
+     *
+     * */
+    public LinkedList<Products> getSales () throws IOException, ClassNotFoundException {
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+        Object o;
+        LinkedList<Products> vendas = null;
+
+        try {
+            o = this.get("sales-db");
+            vendas = (LinkedList<Products>) o;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return vendas;
     }
 
     public void sellProduct (int code, int amount) throws ClassNotFoundException, IOException {
@@ -26,6 +41,8 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
         boolean found = false;
 
+        code -= 1;
+
         while (i < tamanhoLista) {
             if (code == i) {
                 found = true;
@@ -36,23 +53,29 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         }
 
         /*
+        *
+        * Todo: gerar um código único para cada produto, o esquema de selecionar por indice é inviável devido a ordenação em ordem alfabetica.
+        *
+        * */
+
+        System.out.println(
+                produtosLista.get(currentIndex).getTitle()
+        );
+
+        /*
          *
          * Se o produto na qual o código passado for encontrado,
          * executa as operações necessárias sobre ele, adiciona na lista de produtosVendidos e
          * persiste no arquivo de vendas.
          *
-         **/
+
         if (found) {
-            /*System.out.println("Título: " + produtosLista.get(currentIndex).getTitle());
-            System.out.println("Preço: R$ " + produtosLista.get(currentIndex).getPrice());
-            System.out.println("Quantidade em estoque: " + produtosLista.get(currentIndex).getAmount());
-            System.out.println("_______________________________________________________________________________\n");
-*/
             /*
              *
              * Calcula a quantidade e o preço total dos produtos vendidos
              *
-             */
+
+
             int newAmount = produtosLista.get(currentIndex).getAmount() - amount;
             double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
 
@@ -60,12 +83,23 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
             produto.setPrice(precoTotal);
             produto.setAmount(newAmount);
 
-            vendas.add(produto);
-            this.save("sales", vendas);
+            if (!this.isExists("sales-db")) {
+                listaVendas.add(produto);
+                this.save("sales-db", listaVendas);
+                System.out.println("\nVenda efetuada.\n");
+            } else {
+
+                Vendas vendas = new Vendas();
+                listaVendas = vendas.getSales();
+                listaVendas.add(produto);
+                this.save("sales-db", listaVendas);
+                System.out.println("\nVenda efetuada.\n");
+            }
+
 
         } else {
             System.out.println("Produto indisponível ou incorreto.\nTente novamente.");
-        }
+        }**/
     }
 
     public void screenSales () throws IOException, ClassNotFoundException {
@@ -75,7 +109,7 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
         try {
 
-            o = this.get("sales");
+            o = this.get("sales-db");
 
             vendas = (LinkedList<Products>) o;
 
@@ -83,6 +117,7 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
             int tamanhoLista = vendas.size();
 
             while (i < tamanhoLista) {
+                System.out.println("Código: "+vendas.get(i));
                 System.out.println("Produto: "+vendas.get(i).getTitle());
                 System.out.println("Preço: R$ "+vendas.get(i).getPrice());
                 System.out.println("Quantidade disponível em estoque: "+vendas.get(i).getAmount()+"\n");

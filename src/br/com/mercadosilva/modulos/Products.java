@@ -55,7 +55,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 			} else {
 				/*
 				 *
-				 * Caso o arquivo exista, indexo todos os dados do arquivo para temporariamente memória;
+				 * Caso o arquivo exista, indexo todos os dados do arquivo temporariamente na memória;
 				 * Em seguida, adiciona na mesma lista o novo produto, e persiste TODA a lista novamente no arquivo,
 				 * com os produtos antigos e o novo produto
 				*/
@@ -122,6 +122,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 		// Itera e retorna os produtos ordenados em ordem alfabética
 		int i = 0;
 		for (Products p: aux) {
+			System.out.println("Código: "+(i+1));
 			System.out.println("Produto: "+aux[i].getTitle());
 			System.out.println("Preço: R$ "+aux[i].getPrice());
 			System.out.println("Quantidade em estoque: "+aux[i].getAmount()+"\n");

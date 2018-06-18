@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 import br.com.mercadosilva.modulos.Products;
+import br.com.mercadosilva.modulos.Vendas;
 import br.com.mercadosilva.modulos.cycle.CycleOfLife;
 import br.com.mercadosilva.modulos.util.Helpers;
 
@@ -62,13 +63,22 @@ public class Start {
 
                     Products products = new Products();
                     products.screenProducts();
+                    break;
+
+                case 4:
+                    System.out.print("\n------------------------------------------");
+                    System.out.println("\nRELATÓRIO DE VENDAS | 9999 - 0");
+                    System.out.println("------------------------------------------");
+
+                    Vendas vendas = new Vendas();
+                    vendas.screenSales();
 
                     break;
-                case 4:
+
+                case 5:
                     // Invoca o último estado do ciclo de vida do programa: encerrar a execução
                     CycleOfLife.exitProgram();
                     break;
-
                 default:
                     System.out.println("\nOpção inválida!");
             }

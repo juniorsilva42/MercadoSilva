@@ -62,7 +62,6 @@ public class CycleOfLife {
         System.out.println("Código do produto: ");
 
         code = Helpers.bufferedOption();
-        code = code - 1; // Diminue -1 do código para manipular o índice na lista a partir de zero.
 
         System.out.println("2/2 Quantidade a ser vendida: ");
         amount = Helpers.bufferedOption();
