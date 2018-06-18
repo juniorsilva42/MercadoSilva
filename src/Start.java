@@ -1,11 +1,8 @@
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 import br.com.mercadosilva.modulos.Products;
 import br.com.mercadosilva.modulos.cycle.CycleOfLife;
 import br.com.mercadosilva.modulos.util.Helpers;
-import br.com.mercadosilva.modulos.util.QuickSort;
 
 /*
  *

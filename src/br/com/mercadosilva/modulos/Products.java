@@ -11,7 +11,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 
 	private static final long serialVersionUID = 1L;
 
-	private static LinkedList<Object> productsList = new LinkedList<>();
+	private static LinkedList<Products> productsList = new LinkedList<>();
 
 	private String title;
 	private double price;
@@ -41,15 +41,34 @@ public class Products extends Persistencia implements Comparable<Products> {
 		this.amount = amount;
 	}
 
-	public void saveProduct (Products produtos) throws IOException {
+	public void saveProduct (Products novoProduto) throws IOException {
 
 		try {
 
-			productsList.add(produtos);
-			this.save("db.products", productsList);
+			// Se o arquivo dos dados dos Produtos não existir.
+			if (!this.isExists("db.products")) {
+				// Cria uma lista de Produtos e adiciona o novo Produto
+				// Em seguida, persiste no arquivo
+				productsList.add(novoProduto);
+				this.save("db.products", productsList);
+				System.out.println("\nProduto inserido com sucesso!\n");
+			} else {
+				/*
+				 *
+				 * Caso o arquivo exista, indexo todos os dados do arquivo para temporariamente memória;
+				 * Em seguida, adiciona na mesma lista o novo produto, e persiste TODA a lista novamente no arquivo,
+				 * com os produtos antigos e o novo produto
+				*/
+				Products products = new Products();
+				productsList = products.getProducts();
+				productsList.add(novoProduto);
 
-			System.out.println("\nProduto inserido com sucesso!");
+				this.save("db.products", productsList);
+				System.out.println("\nProduto inserido com sucesso!\n");
+			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -126,10 +145,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 
 		return this.getTitle().compareToIgnoreCase(produto.getTitle());
 	}
-
-	public int compareTo(Products p1, Products p2) {
-		return p1.getTitle().toUpperCase().compareToIgnoreCase(p2.getTitle().toUpperCase());
-	}*/
+*/
 
 	@Override
 	/*
