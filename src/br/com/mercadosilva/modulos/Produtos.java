@@ -11,7 +11,7 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 
 	private static LinkedList<Object> lista = new LinkedList<>();
 
-	private String title, categoria;
+	private String title;
 	private double price;
 	private int amount;
 
@@ -21,14 +21,6 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
 	}
 
 	public double getPrice() {
@@ -76,7 +68,6 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 			while (i < tamanhoLista) {
 				System.out.println("Código: "+(i+1));
 				System.out.println("Produto: "+produto.get(i).getTitle());
-				System.out.println("Categoria: "+produto.get(i).getCategoria());
 				System.out.println("Preço: R$ "+produto.get(i).getPrice());
 				System.out.println("Quantidade em estoque: "+produto.get(i).getAmount()+"\n");
 				i++;
@@ -101,7 +92,7 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 		return produtos;
 	}
 
-	@Override
+	/*
 	public int compareTo(Produtos produto) {
 
 		if (this.getPrice() > produto.getPrice()) {
@@ -111,5 +102,15 @@ public class Produtos extends Persistencia implements Comparable<Produtos> {
 		}
 
 		return this.getTitle().compareToIgnoreCase(produto.getTitle());
+	}
+
+	public int compareTo(Produtos p1, Produtos p2) {
+		return p1.getTitle().toUpperCase().compareToIgnoreCase(p2.getTitle().toUpperCase());
+	}*/
+
+	@Override
+	public int compareTo(Produtos produto) {
+
+		return this.getTitle().toLowerCase().compareToIgnoreCase(produto.getTitle().toLowerCase());
 	}
 }

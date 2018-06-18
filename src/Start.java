@@ -1,8 +1,11 @@
 import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
 
 import br.com.mercadosilva.modulos.Produtos;
 import br.com.mercadosilva.modulos.cycle.CycleOfLife;
 import br.com.mercadosilva.modulos.util.Helpers;
+import br.com.mercadosilva.modulos.util.QuickSort;
 
 /*
  *
@@ -49,18 +52,26 @@ public class Start {
                     System.out.println("\nLANÇAR UMA VENDA");
                     System.out.println("__________________________________________\n");
 
-
                     // Invoca o segundo estado do ciclo de vida do programa: lançar uma venda
                     CycleOfLife.launchSale();
                     break;
 
                 case 3:
                     System.out.print("\n------------------------------------------");
-                    System.out.println("\nPRODUTOS NO ESTOQUE");
+                    System.out.println("\nPRODUTOS NO ESTOQUE | A - Z");
                     System.out.println("------------------------------------------");
 
                     Produtos produtos = new Produtos();
-                    produtos.screenProducts();
+                    LinkedList<Produtos> listaProdutos = produtos.getProducts();
+                    Collections.sort(listaProdutos);
+
+                    int i = 0;
+                    for (Produtos p: listaProdutos) {
+                        System.out.println("Produto: "+listaProdutos.get(i).getTitle());
+                        System.out.println("Preço: R$ "+listaProdutos.get(i).getPrice());
+                        System.out.println("Quantidade em estoque: "+listaProdutos.get(i).getAmount()+"\n");
+                        i++;
+                    }
 
                     break;
 

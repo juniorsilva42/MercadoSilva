@@ -9,20 +9,17 @@ import java.util.Scanner;
 
 public class CycleOfLife {
 
-    private static Produtos produtos = new Produtos();
-
     public static void createStock () throws IOException {
+
+        Produtos produtos = new Produtos();
         Scanner in = new Scanner(System.in);
 
-        String title, categoria;
+        String title;
         double price;
         int amount = 0;
 
         System.out.println("Título do produto: ");
         title = in.nextLine();
-
-        System.out.println("Categoria do produto: ");
-        categoria = in.nextLine();
 
         System.out.println("Preço do produto: ");
         price = Double.parseDouble(in.nextLine());
@@ -32,7 +29,6 @@ public class CycleOfLife {
 
         // Persiste o objeto
         produtos.setTitle(title);
-        produtos.setCategoria(categoria);
         produtos.setPrice(price);
         produtos.setAmount(amount);
 
@@ -42,7 +38,9 @@ public class CycleOfLife {
 
     public static void launchSale () throws IOException, ClassNotFoundException {
 
+        Produtos produtos = new Produtos();
         Vendas venda = new Vendas();
+
         produtos.screenProducts();
 
         int code, amount;
