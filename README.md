@@ -1,9 +1,7 @@
 # Trabalho final
 ##### Disciplina de Linguagem de Programação I
-Docente: Dr. Felipe Francisco 
-
-Discente: Ivanicio Junior
-
+Docente: Dr. Felipe Francisco   
+Discente: Ivanicio Junior  
 Matrícula: 17202004
 
 # Descrição
