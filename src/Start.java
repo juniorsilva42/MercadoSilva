@@ -63,36 +63,9 @@ public class Start {
                     System.out.println("\nPRODUTOS NO ESTOQUE | A - Z");
                     System.out.println("------------------------------------------");
 
-                    // Cria a instância para Produtos
-                    Products produtos = new Products();
+                    Products products = new Products();
+                    products.screenProducts();
 
-                    // Obtem todos os produtos
-                    LinkedList<Products> listaProdutos = produtos.getProducts();
-                    int size = listaProdutos.size();
-
-                    // Aloca um vetor auxiliar para ordená-los
-                    Products[] aux = new Products[size];
-
-                    // Adiciona cada item da lista no array auxiliar dos produtos
-                    for (int i = 0; i < size; i++)
-                        aux[i] = listaProdutos.get(i);
-
-                    // Ordena o vetor auxiliar
-                    QuickSort.sort(aux);
-
-                    // Itera e retorna os produtos ordenados em ordem alfabética
-                    int i = 0;
-                    for (Products p: aux) {
-                        System.out.println("Produto: "+aux[i].getTitle());
-                        System.out.println("Preço: R$ "+aux[i].getPrice());
-                        System.out.println("Quantidade em estoque: "+aux[i].getAmount()+"\n");
-                        i++;
-                    }
-
-                    // "Zera" as duas listas da memória no fim da execução desse ciclo de vida
-                    // A principio, zera o array auxiliar, ulterior, zera a LinkedList
-                    Arrays.fill(aux, null);
-                    listaProdutos.clear();
                     break;
                 case 4:
                     // Invoca o último estado do ciclo de vida do programa: encerrar a execução

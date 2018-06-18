@@ -9,6 +9,12 @@ import java.util.Scanner;
 
 public class CycleOfLife {
 
+    /*
+    *
+    * Procedimento intermediador para abstrair a criação de estoque de produtos no sistema
+    * @return void
+    *
+    * */
     public static void createStock () throws IOException {
 
         Products produtos = new Products();
@@ -36,6 +42,12 @@ public class CycleOfLife {
         produtos.saveProduct(produtos);
     }
 
+    /*
+     *
+     * Procedimento intermediador para abstrair o lançamento de uma venda no sistema
+     * @return void
+     *
+     * */
     public static void launchSale () throws IOException, ClassNotFoundException {
 
         Products produtos = new Products();
@@ -57,8 +69,6 @@ public class CycleOfLife {
 
         // Faz o Lançamento da venda
         venda.sellProduct(code, amount);
-
-        venda.screenSales();
     }
 
     public static void exitProgram () {
