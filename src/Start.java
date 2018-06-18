@@ -63,13 +63,21 @@ public class Start {
 
                     Produtos produtos = new Produtos();
                     LinkedList<Produtos> listaProdutos = produtos.getProducts();
-                    Collections.sort(listaProdutos);
+
+                    int size = listaProdutos.size();
+                    Produtos[] aux = new Produtos[size];
+
+                    for (int i = 0; i < size; i++)
+                        aux[i] = listaProdutos.get(i);
+
+                    QuickSort quick = new QuickSort();
+                    quick.sort(aux);
 
                     int i = 0;
-                    for (Produtos p: listaProdutos) {
-                        System.out.println("Produto: "+listaProdutos.get(i).getTitle());
-                        System.out.println("Preço: R$ "+listaProdutos.get(i).getPrice());
-                        System.out.println("Quantidade em estoque: "+listaProdutos.get(i).getAmount()+"\n");
+                    for (Produtos p: aux) {
+                        System.out.println("Produto: "+aux[i].getTitle());
+                        System.out.println("Preço: R$ "+aux[i].getPrice());
+                        System.out.println("Quantidade em estoque: "+aux[i].getAmount()+"\n");
                         i++;
                     }
 
