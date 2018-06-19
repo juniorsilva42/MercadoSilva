@@ -131,6 +131,10 @@ public class Products extends Persistencia implements Comparable<Products> {
 		// Itera e retorna os produtos ordenados em ordem alfabética
 		int i = 0;
 		for (Products p: aux) {
+
+			if (checkIfThereAreProducts(i))
+				System.out.println("NOTIFICAÇÃO: Este produto não existe mais no estoque.");
+
 			System.out.println("Produto: "+aux[i].getTitle());
 			System.out.println("Preço: R$ "+aux[i].getPrice());
 			System.out.println("Quantidade em estoque: "+aux[i].getAmount());
@@ -143,6 +147,16 @@ public class Products extends Persistencia implements Comparable<Products> {
 		// A principio, zera o array auxiliar, ulterior, zera a LinkedList
 		Arrays.fill(aux, null);
 		listaProdutos.clear();
+	}
+
+	public static boolean checkIfThereAreProducts (int index) throws IOException, ClassNotFoundException {
+
+		Products products = new Products();
+		LinkedList<Products> listaProdutos = products.getProducts();
+
+		if (listaProdutos.get(index).getAmount() == 0) return true;
+
+		return false;
 	}
 
 	/*
