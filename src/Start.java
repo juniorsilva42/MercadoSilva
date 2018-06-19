@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 import br.com.mercadosilva.modulos.Products;
 import br.com.mercadosilva.modulos.Vendas;
@@ -16,7 +15,7 @@ import br.com.mercadosilva.modulos.util.Helpers;
 */
 public class Start {
 
-    public static void main (String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
+    public static void main (String[] args) throws IOException, ClassNotFoundException {
 
         new Start();
     }
@@ -62,6 +61,8 @@ public class Start {
                     System.out.println("------------------------------------------");
 
                     Products products = new Products();
+
+                    // Exibe os produtos em ordem alfabética
                     products.screenProducts();
                     break;
 
@@ -71,14 +72,16 @@ public class Start {
                     System.out.println("------------------------------------------");
 
                     Vendas vendas = new Vendas();
-                    vendas.screenSales();
 
+                    // Exibe as vendas da maior para menor (baseado no valor total de cada venda)
+                    vendas.screenSales();
                     break;
 
                 case 5:
                     // Invoca o último estado do ciclo de vida do programa: encerrar a execução
                     CycleOfLife.exitProgram();
                     break;
+
                 default:
                     System.out.println("\nOpção inválida!");
             }

@@ -3,7 +3,6 @@ package br.com.mercadosilva.modulos;
 import br.com.mercadosilva.modulos.persistencia.Persistencia;
 import br.com.mercadosilva.modulos.util.QuickSort;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -52,6 +51,13 @@ public class Products extends Persistencia implements Comparable<Products> {
 		this.amount = amount;
 	}
 
+	/*
+	*
+	* Procedimento para salvar um produto
+	* @arguments Product novoProduto
+	* @return void
+	*
+	* */
 	public void saveProduct (Products novoProduto) throws IOException {
 
 		try {
@@ -74,6 +80,10 @@ public class Products extends Persistencia implements Comparable<Products> {
 				productsList = products.getProducts();
 				productsList.add(novoProduto);
 
+				/* Persiste a lista no arquivo
+				 * Como a classe deste contexto herda da Persistencia, posso utilizar apenas o contexto "this"
+				 * para utilizar os métodos da persistência para brincar com I/O
+				*/
 				this.save("db.products", productsList);
 				System.out.println("\nProduto inserido com sucesso!\n");
 			}
@@ -95,6 +105,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 		Object o;
 		LinkedList<Products> produtos = null;
 		try {
+			// Se o arquivo de produtos não é vazio, ele obtem os objetos do mesmo, caso inverso, retorna o valor padrão nulo
 			if (!this.isEmpty("db.products")) {
 				o = this.get("db.products");
 				produtos = (LinkedList<Products>) o;
@@ -109,12 +120,15 @@ public class Products extends Persistencia implements Comparable<Products> {
 	/*
 	*
 	* Obtem todos os produtos em ordem alfabética
+	*
 	* @return void
 	*
 	* */
 	public void screenProducts () throws IOException, ClassNotFoundException {
+		// Para formatar números reais em duas casa decimais
 		DecimalFormat decimal = new DecimalFormat("0.00");
 
+		// Se o arquivo for vazio...
 		if (this.isEmpty("db.products")) {
 			System.out.println("\nAinda não há produtos no estoque!\n");
 		} else {
@@ -139,6 +153,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 			int i = 0;
 			for (Products p: aux) {
 
+				// Checa se o produto de cada iteração do índice "i" é igual a zero, se for, o produto não existe mais no estoque
 				if (checkIfThereAreProducts(i))
 					System.out.println("NOTIFICAÇÃO: Este produto não existe mais no estoque.");
 
@@ -158,6 +173,14 @@ public class Products extends Persistencia implements Comparable<Products> {
 
 	}
 
+	/*
+	 *
+	 * Verifica se a quantidade do produto é igual a zero
+	 *
+	 * @arguments index
+	 * @return Boolean
+	 *
+	 * */
 	public static boolean checkIfThereAreProducts (int index) throws IOException, ClassNotFoundException {
 
 		Products products = new Products();
@@ -168,6 +191,16 @@ public class Products extends Persistencia implements Comparable<Products> {
 		return false;
 	}
 
+	/*
+	 * @overload
+	 *
+	 * Verifica se a quantidade do produto é igual a zero, e se quantidade a ser vendida no momento do lançamento da venda
+	 * é maior que a disponível no estoque.
+	 *
+	 * @arguments index
+	 * @return Boolean
+	 *
+	 * */
 	public static boolean checkIfThereAreProducts (int index, int amount) throws IOException, ClassNotFoundException {
 
 		Products products = new Products();
