@@ -67,7 +67,6 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 			ois  = new ObjectInputStream(is);
 
 			o = ois.readObject();
-
 		} catch (FileNotFoundException e) {
 			System.out.println("[System log]:\n "+e);
 		}
@@ -99,6 +98,15 @@ public class Persistencia implements PersistenciaInterface, Serializable {
 		if (file.exists())
 			return true; 
 		
+		return false;
+	}
+
+	public boolean isEmpty (String fileName) throws IOException {
+		File file = new File(dir+fileName+ext);
+
+		if (file.length() == 0)
+			return true;
+
 		return false;
 	}
 }

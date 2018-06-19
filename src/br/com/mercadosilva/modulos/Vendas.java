@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
+import static br.com.mercadosilva.modulos.Products.checkIfThereAreProducts;
+
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     private LinkedList<Vendas> listaVendas = new LinkedList<>();
@@ -76,8 +78,10 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         LinkedList<Vendas> vendas = null;
 
         try {
-            o = this.get("db.sales");
-            vendas = (LinkedList<Vendas>) o;
+            if (!this.isEmpty("db.sales")) {
+                o = this.get("db.sales");
+                vendas = (LinkedList<Vendas>) o;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,43 +119,47 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
          *
         */
         if (found) {
-            /*
-             *
-             * Calcula a quantidade e o preço total dos produtos vendidos
-             *
-            */
 
-            int newAmount = produtosLista.get(currentIndex).getAmount() - amount;
-            double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
+            if (!Products.checkIfThereAreProducts(i)) {
+                /*
+                 *
+                 * Calcula a quantidade e o preço total dos produtos vendidos
+                 *
+                 */
+                int newAmount = produtosLista.get(currentIndex).getAmount() - amount;
+                double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
 
-            vendas.setTitle(produtosLista.get(currentIndex).getTitle());
-            vendas.setPrice(produtosLista.get(currentIndex).getPrice());
-            vendas.setTotalPrice(precoTotal);
-            vendas.setSoldAmount(amount);
-            vendas.setAvailableQuantity(newAmount);
+                vendas.setTitle(produtosLista.get(currentIndex).getTitle());
+                vendas.setPrice(produtosLista.get(currentIndex).getPrice());
+                vendas.setTotalPrice(precoTotal);
+                vendas.setSoldAmount(amount);
+                vendas.setAvailableQuantity(newAmount);
 
-            if (!this.isExists("db.sales")) {
-                listaVendas.add(vendas);
-                this.save("db.sales", listaVendas);
-                System.out.println("\nVenda efetuada.\n");
+                if (!this.isExists("db.sales") || this.isEmpty("db.sales")) {
+                    listaVendas.add(vendas);
+                    this.save("db.sales", listaVendas);
+                    System.out.println("\nVenda efetuada com sucesso!\n");
+                } else {
+
+                    listaVendas = vendas.getSales();
+                    listaVendas.add(vendas);
+                    this.save("db.sales", listaVendas);
+                    System.out.println("\nVenda efetuada com sucesso!\n");
+                }
+
+                LinkedList<Products> listaProdutos = new LinkedList<>();
+                LinkedList<LinkedList<Products>> lista = new LinkedList<>();
+
+                listaProdutos = produto.getProducts();
+
+                if (isExists("db.products")) {
+                    lista.add(listaProdutos);
+                    listaProdutos.get(currentIndex).setAmount(newAmount);
+                    this.save("db.products", listaProdutos);
+                    lista.clear();
+                }
             } else {
-
-                listaVendas = vendas.getSales();
-                listaVendas.add(vendas);
-                this.save("db.sales", listaVendas);
-                System.out.println("\nVenda efetuada.\n");
-            }
-
-            LinkedList<Products> listaProdutos = new LinkedList<>();
-            LinkedList<LinkedList<Products>> lista = new LinkedList<>();
-
-            listaProdutos = produto.getProducts();
-
-            if (isExists("db.products")) {
-                lista.add(listaProdutos);
-                listaProdutos.get(currentIndex).setAmount(newAmount);
-                this.save("db.products", listaProdutos);
-                lista.clear();
+                System.out.println("\nImpossível efetuar a venda.\nProduto indisponível.\n");
             }
 
         } else
@@ -159,35 +167,40 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     }
 
-    public void screenSales () throws ClassNotFoundException {
+    public void screenSales () throws ClassNotFoundException, IOException {
 
-        // Cria a instância para Produtos
-        Vendas vendasInstancia = new Vendas();
-        DecimalFormat decimal = new DecimalFormat("0.00");
+        if (this.isEmpty("db.sales")) {
+            System.out.println("\nAinda não há vendas registradas neste livro-caixa.\n");
+        } else {
+            // Cria a instância para Produtos
+            Vendas vendasInstancia = new Vendas();
+            DecimalFormat decimal = new DecimalFormat("0.00");
 
-        // Obtem todos os produtos
-        LinkedList<Vendas> vendasLista = vendasInstancia.getSales();
-        int size = vendasLista.size();
+            // Obtem todos os produtos
+            LinkedList<Vendas> vendasLista = vendasInstancia.getSales();
+            int size = vendasLista.size();
 
-        // Aloca um vetor auxiliar para ordená-los
-        Vendas[] aux = new Vendas[size];
+            // Aloca um vetor auxiliar para ordená-los
+            Vendas[] aux = new Vendas[size];
 
-        // Adiciona cada item da lista no array auxiliar dos produtos
-        for (int i = 0; i < size; i++)
-            aux[i] = vendasLista.get(i);
+            // Adiciona cada item da lista no array auxiliar dos produtos
+            for (int i = 0; i < size; i++)
+                aux[i] = vendasLista.get(i);
 
-        // Ordena o vetor auxiliar
-        QuickSort.sort(aux);
+            // Ordena o vetor auxiliar
+            QuickSort.sort(aux);
 
-        // Itera e retorna os produtos ordenados em ordem alfabética
-        int i = 0;
-        for (Vendas venda: aux) {
-            System.out.println("Produto: "+aux[i].getTitle());
-            System.out.println("Preço total da venda: R$ "+decimal.format(aux[i].getTotalPrice()));
-            System.out.println("Preço unitário: R$ "+decimal.format(aux[i].getPrice()));
-            System.out.println("Quantidade vendida: "+aux[i].getSoldAmount());
-            System.out.println("Disponível ainda no estoque: "+aux[i].getAvailableQuantity()+"\n");
-            i++;
+            // Itera e retorna os produtos ordenados em ordem alfabética
+            int i = 0;
+            for (Vendas venda: aux) {
+                System.out.println("Produto: "+aux[i].getTitle());
+                System.out.println("Preço total da venda: R$ "+decimal.format(aux[i].getTotalPrice()));
+                System.out.println("Preço unitário: R$ "+decimal.format(aux[i].getPrice()));
+                System.out.println("Quantidade vendida: "+aux[i].getSoldAmount());
+                System.out.println("Disponível ainda no estoque: "+aux[i].getAvailableQuantity());
+                System.out.println("------------------------------------------");
+                i++;
+            }
         }
     }
 

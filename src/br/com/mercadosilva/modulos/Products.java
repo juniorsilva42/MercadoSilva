@@ -3,6 +3,7 @@ package br.com.mercadosilva.modulos;
 import br.com.mercadosilva.modulos.persistencia.Persistencia;
 import br.com.mercadosilva.modulos.util.QuickSort;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -92,10 +93,11 @@ public class Products extends Persistencia implements Comparable<Products> {
 
 		Object o;
 		LinkedList<Products> produtos = null;
-
 		try {
-			o = this.get("db.products");
-			produtos = (LinkedList<Products>) o;
+			if (!this.isEmpty("db.products")) {
+				o = this.get("db.products");
+				produtos = (LinkedList<Products>) o;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -111,42 +113,47 @@ public class Products extends Persistencia implements Comparable<Products> {
 	* */
 	public void screenProducts () throws IOException, ClassNotFoundException {
 
-		// Cria a instância para Produtos
-		Products produtos = new Products();
+		if (this.isEmpty("db.products")) {
+			System.out.println("\nAinda não há produtos no estoque!\n");
+		} else {
+			// Cria a instância para Produtos
+			Products produtos = new Products();
 
-		// Obtem todos os produtos
-		LinkedList<Products> listaProdutos = produtos.getProducts();
-		int size = listaProdutos.size();
+			// Obtem todos os produtos
+			LinkedList<Products> listaProdutos = produtos.getProducts();
+			int size = listaProdutos.size();
 
-		// Aloca um vetor auxiliar para ordená-los
-		Products[] aux = new Products[size];
+			// Aloca um vetor auxiliar para ordená-los
+			Products[] aux = new Products[size];
 
-		// Adiciona cada item da lista no array auxiliar dos produtos
-		for (int i = 0; i < size; i++)
-			aux[i] = listaProdutos.get(i);
+			// Adiciona cada item da lista no array auxiliar dos produtos
+			for (int i = 0; i < size; i++)
+				aux[i] = listaProdutos.get(i);
 
-		// Ordena o vetor auxiliar
-		QuickSort.sort(aux);
+			// Ordena o vetor auxiliar
+			QuickSort.sort(aux);
 
-		// Itera e retorna os produtos ordenados em ordem alfabética
-		int i = 0;
-		for (Products p: aux) {
+			// Itera e retorna os produtos ordenados em ordem alfabética
+			int i = 0;
+			for (Products p: aux) {
 
-			if (checkIfThereAreProducts(i))
-				System.out.println("NOTIFICAÇÃO: Este produto não existe mais no estoque.");
+				if (checkIfThereAreProducts(i))
+					System.out.println("NOTIFICAÇÃO: Este produto não existe mais no estoque.");
 
-			System.out.println("Produto: "+aux[i].getTitle());
-			System.out.println("Preço: R$ "+aux[i].getPrice());
-			System.out.println("Quantidade em estoque: "+aux[i].getAmount());
-            System.out.println("Código: "+aux[i].getCode());
-            System.out.println("------------------------------------------");
-			i++;
+				System.out.println("Produto: "+aux[i].getTitle());
+				System.out.println("Preço: R$ "+aux[i].getPrice());
+				System.out.println("Quantidade em estoque: "+aux[i].getAmount());
+				System.out.println("Código: "+aux[i].getCode());
+				System.out.println("------------------------------------------");
+				i++;
+			}
+
+			// "Zera" as duas listas da memória no fim da execução desse ciclo de vida
+			// A principio, zera o array auxiliar, ulterior, zera a LinkedList
+			Arrays.fill(aux, null);
+			listaProdutos.clear();
 		}
 
-		// "Zera" as duas listas da memória no fim da execução desse ciclo de vida
-		// A principio, zera o array auxiliar, ulterior, zera a LinkedList
-		Arrays.fill(aux, null);
-		listaProdutos.clear();
 	}
 
 	public static boolean checkIfThereAreProducts (int index) throws IOException, ClassNotFoundException {
