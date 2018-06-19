@@ -35,7 +35,7 @@ public class Start {
          * */
         do {
 
-            System.out.println("Digite uma opção correspondente acima: ");
+            System.out.println("Digite uma opção correspondente de menu acima: ");
             opcao = Helpers.bufferedOption();
 
             switch (opcao) {

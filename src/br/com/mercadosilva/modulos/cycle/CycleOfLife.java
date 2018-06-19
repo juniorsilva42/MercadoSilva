@@ -54,23 +54,30 @@ public class CycleOfLife {
     public static void launchSale () throws IOException, ClassNotFoundException {
 
         Products produtos = new Products();
-        Vendas venda = new Vendas();
-
         produtos.screenProducts();
 
+        Vendas venda = new Vendas();
+
         int code, amount;
+        int continua = 1;
 
-        // Abre as possibilidade de operação
-        System.out.println("\n1/2 Selecione o produto para lançar uma nova venda");
-        System.out.println("Código do produto: ");
+        do {
+            // Abre as possibilidade de operação
+            System.out.println("\n1/2 Selecione o produto para lançar uma nova venda");
+            System.out.println("Código do produto: ");
 
-        code = Helpers.bufferedOption();
+            code = Helpers.bufferedOption();
 
-        System.out.println("2/2 Quantidade a ser vendida: ");
-        amount = Helpers.bufferedOption();
+            System.out.println("2/2 Quantidade a ser vendida: ");
+            amount = Helpers.bufferedOption();
 
-        // Faz o Lançamento da venda
-        venda.sellProduct(code, amount);
+            // Faz o Lançamento da venda
+            venda.sellProduct(code, amount);
+
+            System.out.println("Deseja registrar mais vendas? (1 - sim; 2 - não)");
+            continua = Helpers.bufferedOption();
+
+        } while (continua != 2);
     }
 
     public static void exitProgram () {
