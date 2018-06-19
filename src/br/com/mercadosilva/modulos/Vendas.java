@@ -9,8 +9,8 @@ import java.util.LinkedList;
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     private String title;
-    private double totalPrice;
-    private int amount;
+    private double price, totalPrice;
+    private int SoldAmount, AvailableQuantity;
     private int code;
 
     private LinkedList<Vendas> listaVendas = new LinkedList<>();
@@ -31,12 +31,12 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         this.totalPrice = totalPrice;
     }
 
-    public int getAmount() {
-        return amount;
+    public double getPrice() {
+        return price;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getCode() {
@@ -45,6 +45,22 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+    public int getSoldAmount() {
+        return SoldAmount;
+    }
+
+    public void setSoldAmount(int soldAmount) {
+        SoldAmount = soldAmount;
+    }
+
+    public int getAvailableQuantity() {
+        return AvailableQuantity;
+    }
+
+    public void setAvailableQuantity(int availableQuantity) {
+        AvailableQuantity = availableQuantity;
     }
 
     /*
@@ -108,8 +124,10 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
             double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
 
             vendas.setTitle(produtosLista.get(currentIndex).getTitle());
+            vendas.setPrice(produtosLista.get(currentIndex).getPrice());
             vendas.setTotalPrice(precoTotal);
-            vendas.setAmount(newAmount);
+            vendas.setSoldAmount(amount);
+            vendas.setAvailableQuantity(newAmount);
 
             if (!this.isExists("db.sales")) {
                 listaVendas.add(vendas);
@@ -122,6 +140,18 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
                 this.save("db.sales", listaVendas);
                 System.out.println("\nVenda efetuada.\n");
             }
+
+            LinkedList<Products> listaProdutos = new LinkedList<>();
+            LinkedList<LinkedList<Products>> lista = new LinkedList<>();
+
+            listaProdutos = produto.getProducts();
+
+            if (isExists("db.products")) {
+                lista.add(listaProdutos);
+                listaProdutos.get(currentIndex).setAmount(newAmount);
+                this.save("db.products", listaProdutos);
+            }
+
         } else {
             System.out.println("Produto indisponível ou incorreto.\nTente novamente.");
         }
@@ -151,8 +181,10 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         int i = 0;
         for (Vendas venda: aux) {
             System.out.println("Produto: "+aux[i].getTitle());
-            System.out.println("Preço: R$ "+aux[i].getTotalPrice());
-            System.out.println("Quantidade ainda disponível em estoque: "+aux[i].getAmount()+"\n");
+            System.out.println("Preço unitário: R$ "+aux[i].getPrice());
+            System.out.println("Preço da venda: R$ "+aux[i].getTotalPrice());
+            System.out.println("Quantidade vendida: "+aux[i].getSoldAmount());
+            System.out.println("Disponível ainda no estoque: "+aux[i].getAvailableQuantity()+"\n");
             i++;
         }
     }

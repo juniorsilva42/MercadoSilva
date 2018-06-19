@@ -131,10 +131,11 @@ public class Products extends Persistencia implements Comparable<Products> {
 		// Itera e retorna os produtos ordenados em ordem alfabética
 		int i = 0;
 		for (Products p: aux) {
-			System.out.println("Código: "+aux[i].getCode());
 			System.out.println("Produto: "+aux[i].getTitle());
 			System.out.println("Preço: R$ "+aux[i].getPrice());
-			System.out.println("Quantidade em estoque: "+aux[i].getAmount()+"\n");
+			System.out.println("Quantidade em estoque: "+aux[i].getAmount());
+            System.out.println("Código: "+aux[i].getCode());
+            System.out.println("------------------------------------------");
 			i++;
 		}
 

@@ -48,10 +48,9 @@ public class Start {
                     CycleOfLife.createStock();
                     break;
                 case 2:
-
-                    System.out.println("__________________________________________");
-                    System.out.println("\nLANÇAR UMA VENDA");
-                    System.out.println("__________________________________________\n");
+                    System.out.print("\n------------------------------------------");
+                    System.out.println("\nLANÇAR UMA VENDA | Produtos disponíveis no estoque");
+                    System.out.println("------------------------------------------");
 
                     // Invoca o segundo estado do ciclo de vida do programa: lançar uma venda
                     CycleOfLife.launchSale();
