@@ -145,23 +145,9 @@ public class Products extends Persistencia implements Comparable<Products> {
 	}
 
 	/*
-	public int compareTo(Products produto) {
-
-		if (this.getPrice() > produto.getPrice()) {
-			return -1;
-		} else if (this.getPrice() < produto.getPrice()) {
-			return 1;
-		}
-
-		return this.getTitle().compareToIgnoreCase(produto.getTitle());
-	}
-*/
-
-	@Override
-	/*
 	*
 	* Esboça o retorno dos produtos pelo seu titulo em ordem alfabética
-	* */
+    */
 	public int compareTo(Products produto) {
 
 		return this.getTitle().toLowerCase().compareToIgnoreCase(produto.getTitle().toLowerCase());

@@ -1,13 +1,51 @@
 package br.com.mercadosilva.modulos;
 
 import br.com.mercadosilva.modulos.persistencia.Persistencia;
+import br.com.mercadosilva.modulos.util.QuickSort;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
-    private LinkedList<Products> listaVendas = new LinkedList<>();
+    private String title;
+    private double totalPrice;
+    private int amount;
+    private int code;
+
+    private LinkedList<Vendas> listaVendas = new LinkedList<>();
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     /*
      *
@@ -15,14 +53,14 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
      * @return LinkedList<Products>
      *
      * */
-    public LinkedList<Products> getSales () throws IOException, ClassNotFoundException {
+    public LinkedList<Vendas> getSales () throws ClassNotFoundException {
 
         Object o;
-        LinkedList<Products> vendas = null;
+        LinkedList<Vendas> vendas = null;
 
         try {
-            o = this.get("sales-db");
-            vendas = (LinkedList<Products>) o;
+            o = this.get("db.sales");
+            vendas = (LinkedList<Vendas>) o;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,6 +71,8 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
     public void sellProduct (int code, int amount) throws ClassNotFoundException, IOException {
 
         Products produto = new Products();
+        Vendas vendas = new Vendas();
+
         LinkedList<Products> produtosLista = produto.getProducts();
 
         int i = 0;
@@ -67,20 +107,19 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
             int newAmount = produtosLista.get(currentIndex).getAmount() - amount;
             double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
 
-            produto.setTitle(produtosLista.get(currentIndex).getTitle());
-            produto.setPrice(precoTotal);
-            produto.setAmount(newAmount);
+            vendas.setTitle(produtosLista.get(currentIndex).getTitle());
+            vendas.setTotalPrice(precoTotal);
+            vendas.setAmount(newAmount);
 
-            if (!this.isExists("sales-db")) {
-                listaVendas.add(produto);
-                this.save("sales-db", listaVendas);
+            if (!this.isExists("db.sales")) {
+                listaVendas.add(vendas);
+                this.save("db.sales", listaVendas);
                 System.out.println("\nVenda efetuada.\n");
             } else {
 
-                Vendas vendas = new Vendas();
                 listaVendas = vendas.getSales();
-                listaVendas.add(produto);
-                this.save("sales-db", listaVendas);
+                listaVendas.add(vendas);
+                this.save("db.sales", listaVendas);
                 System.out.println("\nVenda efetuada.\n");
             }
         } else {
@@ -89,36 +128,43 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     }
 
-    public void screenSales () throws IOException, ClassNotFoundException {
+    public void screenSales () throws ClassNotFoundException {
 
-        LinkedList<Products> vendas;
-        Object o;
+        // Cria a instância para Produtos
+        Vendas vendasInstancia = new Vendas();
 
-        try {
+        // Obtem todos os produtos
+        LinkedList<Vendas> vendasLista = vendasInstancia.getSales();
+        int size = vendasLista.size();
 
-            o = this.get("sales-db");
+        // Aloca um vetor auxiliar para ordená-los
+        Vendas[] aux = new Vendas[size];
 
-            vendas = (LinkedList<Products>) o;
+        // Adiciona cada item da lista no array auxiliar dos produtos
+        for (int i = 0; i < size; i++)
+            aux[i] = vendasLista.get(i);
 
-            int i = 0;
-            int tamanhoLista = vendas.size();
+        // Ordena o vetor auxiliar
+        QuickSort.sort(aux);
 
-            while (i < tamanhoLista) {
-                System.out.println("Código: "+vendas.get(i));
-                System.out.println("Produto: "+vendas.get(i).getTitle());
-                System.out.println("Preço: R$ "+vendas.get(i).getPrice());
-                System.out.println("Quantidade disponível em estoque: "+vendas.get(i).getAmount()+"\n");
-
-                i++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Itera e retorna os produtos ordenados em ordem alfabética
+        int i = 0;
+        for (Vendas venda: aux) {
+            System.out.println("Produto: "+aux[i].getTitle());
+            System.out.println("Preço: R$ "+aux[i].getTotalPrice());
+            System.out.println("Quantidade ainda disponível em estoque: "+aux[i].getAmount()+"\n");
+            i++;
         }
     }
 
     @Override
-    public int compareTo(Vendas venda) {
+    public int compareTo (Vendas venda) {
 
-        return 0;
+        if (this.getTotalPrice() > venda.getTotalPrice())
+            return -1;
+        else if (this.getTotalPrice() < venda.getTotalPrice())
+            return 1;
+
+        return this.getTitle().compareToIgnoreCase(String.valueOf(venda.getTotalPrice()));
     }
 }

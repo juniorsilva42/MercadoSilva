@@ -44,8 +44,6 @@ public class Start {
                     System.out.println("\nCADASTRAR UM PRODUTO");
                     System.out.println("------------------------------------------");
 
-                    System.out.println(Helpers.genCode());
-
                     // Invoca o primeiro estado do ciclo de vida do programa: adicionar um produto ao sistema
                     CycleOfLife.createStock();
                     break;
