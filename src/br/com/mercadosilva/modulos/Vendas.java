@@ -8,12 +8,12 @@ import java.util.LinkedList;
 
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
+    private LinkedList<Vendas> listaVendas = new LinkedList<>();
+
     private String title;
     private double price, totalPrice;
     private int SoldAmount, AvailableQuantity;
     private int code;
-
-    private LinkedList<Vendas> listaVendas = new LinkedList<>();
 
     public String getTitle() {
         return title;
@@ -150,11 +150,11 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
                 lista.add(listaProdutos);
                 listaProdutos.get(currentIndex).setAmount(newAmount);
                 this.save("db.products", listaProdutos);
+                lista.clear();
             }
 
-        } else {
+        } else
             System.out.println("Produto indisponível ou incorreto.\nTente novamente.");
-        }
 
     }
 
