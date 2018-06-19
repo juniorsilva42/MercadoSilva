@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
-import static br.com.mercadosilva.modulos.Products.checkIfThereAreProducts;
-
 public class Vendas extends Persistencia implements Comparable<Vendas> {
 
     private LinkedList<Vendas> listaVendas = new LinkedList<>();
@@ -160,13 +158,11 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
                     this.save("db.products", listaProdutos);
                     lista.clear();
                 }
-            } else {
+            } else
                 System.out.println("\nImpossível efetuar a venda.\nProduto indisponível ou a quantidade que queres vender é maior que o disponível no estoque.\n");
-            }
 
         } else
             System.out.println("Produto indisponível ou incorreto.\nTente novamente.");
-
     }
 
     public void screenSales () throws ClassNotFoundException, IOException {

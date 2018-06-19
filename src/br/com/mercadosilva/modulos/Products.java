@@ -5,6 +5,7 @@ import br.com.mercadosilva.modulos.util.QuickSort;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -112,6 +113,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 	*
 	* */
 	public void screenProducts () throws IOException, ClassNotFoundException {
+		DecimalFormat decimal = new DecimalFormat("0.00");
 
 		if (this.isEmpty("db.products")) {
 			System.out.println("\nAinda não há produtos no estoque!\n");
@@ -141,7 +143,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 					System.out.println("NOTIFICAÇÃO: Este produto não existe mais no estoque.");
 
 				System.out.println("Produto: "+aux[i].getTitle());
-				System.out.println("Preço: R$ "+aux[i].getPrice());
+				System.out.println("Preço: R$ "+decimal.format(aux[i].getPrice()));
 				System.out.println("Quantidade em estoque: "+aux[i].getAmount());
 				System.out.println("Código: "+aux[i].getCode());
 				System.out.println("------------------------------------------");
