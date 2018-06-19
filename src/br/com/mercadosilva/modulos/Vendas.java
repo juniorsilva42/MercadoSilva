@@ -4,6 +4,7 @@ import br.com.mercadosilva.modulos.persistencia.Persistencia;
 import br.com.mercadosilva.modulos.util.QuickSort;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 
 public class Vendas extends Persistencia implements Comparable<Vendas> {
@@ -162,6 +163,7 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
         // Cria a instância para Produtos
         Vendas vendasInstancia = new Vendas();
+        DecimalFormat decimal = new DecimalFormat("0.00");
 
         // Obtem todos os produtos
         LinkedList<Vendas> vendasLista = vendasInstancia.getSales();
@@ -181,8 +183,8 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         int i = 0;
         for (Vendas venda: aux) {
             System.out.println("Produto: "+aux[i].getTitle());
-            System.out.println("Preço unitário: R$ "+aux[i].getPrice());
-            System.out.println("Preço da venda: R$ "+aux[i].getTotalPrice());
+            System.out.println("Preço total da venda: R$ "+decimal.format(aux[i].getTotalPrice()));
+            System.out.println("Preço unitário: R$ "+decimal.format(aux[i].getPrice()));
             System.out.println("Quantidade vendida: "+aux[i].getSoldAmount());
             System.out.println("Disponível ainda no estoque: "+aux[i].getAvailableQuantity()+"\n");
             i++;
