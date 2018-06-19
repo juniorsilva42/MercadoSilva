@@ -41,10 +41,8 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
 
         boolean found = false;
 
-        code -= 1;
-
         while (i < tamanhoLista) {
-            if (code == i) {
+            if (produtosLista.get(i).getCode() == code) {
                 found = true;
                 currentIndex = i;
                 break;
@@ -53,28 +51,18 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         }
 
         /*
-        *
-        * Todo: gerar um código único para cada produto, o esquema de selecionar por indice é inviável devido a ordenação em ordem alfabetica.
-        *
-        * */
-
-        System.out.println(
-                produtosLista.get(currentIndex).getTitle()
-        );
-
-        /*
          *
          * Se o produto na qual o código passado for encontrado,
          * executa as operações necessárias sobre ele, adiciona na lista de produtosVendidos e
          * persiste no arquivo de vendas.
          *
-
+        */
         if (found) {
             /*
              *
              * Calcula a quantidade e o preço total dos produtos vendidos
              *
-
+            */
 
             int newAmount = produtosLista.get(currentIndex).getAmount() - amount;
             double precoTotal = produtosLista.get(currentIndex).getPrice() * amount;
@@ -95,11 +83,10 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
                 this.save("sales-db", listaVendas);
                 System.out.println("\nVenda efetuada.\n");
             }
-
-
         } else {
             System.out.println("Produto indisponível ou incorreto.\nTente novamente.");
-        }**/
+        }
+
     }
 
     public void screenSales () throws IOException, ClassNotFoundException {

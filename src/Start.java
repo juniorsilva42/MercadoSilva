@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import br.com.mercadosilva.modulos.Products;
 import br.com.mercadosilva.modulos.Vendas;
@@ -15,7 +16,7 @@ import br.com.mercadosilva.modulos.util.Helpers;
 */
 public class Start {
 
-    public static void main (String[] args) throws IOException, ClassNotFoundException {
+    public static void main (String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
 
         new Start();
     }
@@ -42,6 +43,8 @@ public class Start {
                     System.out.print("\n------------------------------------------");
                     System.out.println("\nCADASTRAR UM PRODUTO");
                     System.out.println("------------------------------------------");
+
+                    System.out.println(Helpers.genCode());
 
                     // Invoca o primeiro estado do ciclo de vida do programa: adicionar um produto ao sistema
                     CycleOfLife.createStock();
@@ -83,6 +86,6 @@ public class Start {
                     System.out.println("\nOpção inválida!");
             }
 
-        } while (opcao != 4);
+        } while (opcao != 5);
     }
 }

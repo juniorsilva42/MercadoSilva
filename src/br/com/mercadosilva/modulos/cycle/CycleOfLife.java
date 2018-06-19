@@ -5,6 +5,7 @@ import br.com.mercadosilva.modulos.Vendas;
 import br.com.mercadosilva.modulos.util.Helpers;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class CycleOfLife {
@@ -23,6 +24,7 @@ public class CycleOfLife {
         String title;
         double price;
         int amount = 0;
+        int code = Helpers.genCode();
 
         System.out.println("Título do produto: ");
         title = in.nextLine();
@@ -37,6 +39,7 @@ public class CycleOfLife {
         produtos.setTitle(title);
         produtos.setPrice(price);
         produtos.setAmount(amount);
+        produtos.setCode(code);
 
         // Persiste o objeto no arquivo
         produtos.saveProduct(produtos);

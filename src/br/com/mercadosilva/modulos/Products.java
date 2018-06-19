@@ -16,6 +16,15 @@ public class Products extends Persistencia implements Comparable<Products> {
 	private String title;
 	private double price;
 	private int amount;
+	private int code;
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
 
 	public String getTitle() {
 		return title;
@@ -122,7 +131,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 		// Itera e retorna os produtos ordenados em ordem alfabética
 		int i = 0;
 		for (Products p: aux) {
-			System.out.println("Código: "+(i+1));
+			System.out.println("Código: "+aux[i].getCode());
 			System.out.println("Produto: "+aux[i].getTitle());
 			System.out.println("Preço: R$ "+aux[i].getPrice());
 			System.out.println("Quantidade em estoque: "+aux[i].getAmount()+"\n");
