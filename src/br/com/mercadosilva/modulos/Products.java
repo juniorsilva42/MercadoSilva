@@ -153,7 +153,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 			int i = 0;
 			for (Products p: aux) {
 
-				// Checa se o produto de cada iteração do índice "i" é igual a zero, se for, o produto não existe mais no estoque
+				// Checa se a quantidade do produto de cada iteração do índice "i" é igual a zero, se for, o produto não existe mais no estoque
 				if (checkIfThereAreProducts(i))
 					System.out.println("NOTIFICAÇÃO: Este produto não existe mais no estoque.");
 
@@ -194,7 +194,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 	/*
 	 * @overload
 	 *
-	 * Verifica se a quantidade do produto é igual a zero, e se quantidade a ser vendida no momento do lançamento da venda
+	 * Verifica se a quantidade do produto é igual a zero, e se quantidade a ser vendida no momento do lançamento da venda,
 	 * é maior que a disponível no estoque.
 	 *
 	 * @arguments index
@@ -215,7 +215,7 @@ public class Products extends Persistencia implements Comparable<Products> {
 	*
 	* Esboça o retorno dos produtos pelo seu titulo em ordem alfabética
     */
-	public int compareTo(Products produto) {
+	public int compareTo (Products produto) {
 
 		return this.getTitle().toLowerCase().compareToIgnoreCase(produto.getTitle().toLowerCase());
 	}
