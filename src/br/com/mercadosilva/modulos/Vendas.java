@@ -120,7 +120,9 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
         */
         if (found) {
 
-            if (!Products.checkIfThereAreProducts(i)) {
+            // Se o estoque do produto é diferente de zero ou a quantidade que eu quero vender é menor que a quantidade
+            // que eu tenho disponível, pode vender..
+            if (!Products.checkIfThereAreProducts(currentIndex, amount)) {
                 /*
                  *
                  * Calcula a quantidade e o preço total dos produtos vendidos
@@ -159,7 +161,7 @@ public class Vendas extends Persistencia implements Comparable<Vendas> {
                     lista.clear();
                 }
             } else {
-                System.out.println("\nImpossível efetuar a venda.\nProduto indisponível.\n");
+                System.out.println("\nImpossível efetuar a venda.\nProduto indisponível ou a quantidade que queres vender é maior que o disponível no estoque.\n");
             }
 
         } else

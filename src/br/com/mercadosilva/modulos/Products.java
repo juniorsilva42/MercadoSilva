@@ -161,7 +161,17 @@ public class Products extends Persistencia implements Comparable<Products> {
 		Products products = new Products();
 		LinkedList<Products> listaProdutos = products.getProducts();
 
-		if (listaProdutos.get(index).getAmount() == 0) return true;
+		if (listaProdutos.get(index).getAmount() <= 0) return true;
+
+		return false;
+	}
+
+	public static boolean checkIfThereAreProducts (int index, int amount) throws IOException, ClassNotFoundException {
+
+		Products products = new Products();
+		LinkedList<Products> listaProdutos = products.getProducts();
+
+		if (listaProdutos.get(index).getAmount() == 0 || amount > listaProdutos.get(index).getAmount()) return true;
 
 		return false;
 	}
